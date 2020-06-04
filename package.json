@@ -1,0 +1,17 @@
+{
+	"name": "dbot",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "MrRedBobr <46565863+MrRedBobr@users.noreply.github.com>",
+	"license": "MIT",
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"description": "DiscordBot",
+	"dependencies": {
+		"@discordjs/opus": "^0.3.2",
+		"discord.js": "^12.2.0",
+		"ffmpeg-static": "^4.2.2"
+	}
+}
