@@ -1,12 +1,12 @@
 {
 	"name": "dbot",
 	"version": "1.0.0",
-	"main": "index.js",
+	"main": "main.js",
 	"author": "MrRedBobr <46565863+MrRedBobr@users.noreply.github.com>",
 	"license": "MIT",
 	"devDependencies": {},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start": "node main.js"
 	},
 	"description": "DiscordBot",
 	"dependencies": {
