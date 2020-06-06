@@ -3,9 +3,10 @@ const serversQueue = [];
 
 const playQueue = (connection, client, list) => {
 	const broadcast = client.voice.createBroadcast();
-	broadcast.play(ytdl(list.queue.shift(), { filter: 'audioonly' }));
+	broadcast.play(ytdl(list.queue[0], { filter: 'audioonly' }));
 	connection.play(broadcast);
 	broadcast.dispatcher.on('finish', () => {
+		list.queue.shift();
 		if (!list.queue) {
 			broadcast.end();
 		} else playQueue(connection, client, list);
@@ -22,7 +23,7 @@ module.exports = {
 		if (index != -1) {
 			serversQueue[index].queue.push(args[0]);
 
-			if (message.guild.voice.speaking) {
+			if (serversQueue[index].queue.length == 1) {
 				playQueue(message.guild.voice.connection, client, serversQueue[index]);
 			}
 		} else {
