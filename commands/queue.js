@@ -7,7 +7,9 @@ const playQueue = (connection, client, list) => {
 	connection.play(broadcast);
 	broadcast.dispatcher.on('finish', () => {
 		console.log(list);
-		playQueue(connection, client, list);
+		if (!list.queue) {
+			broadcast.end();
+		} else playQueue(connection, client, list);
 	});
 };
 
@@ -20,6 +22,10 @@ module.exports = {
 		let index = serversQueue.findIndex((arg) => arg.id == fromChannelMessage);
 		if (index != -1) {
 			serversQueue[index].queue.push(args[0]);
+
+			if (!message.guild.voice.speaking) {
+				playQueue(message.guild.voice.connection, client, serversQueue[index]);
+			}
 		} else {
 			let newServer = { id: fromChannelMessage, queue: [args[0]] };
 			serversQueue.push(newServer);
