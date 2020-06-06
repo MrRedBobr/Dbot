@@ -6,7 +6,6 @@ const playQueue = (connection, client, list) => {
 	broadcast.play(ytdl(list.queue.shift(), { filter: 'audioonly' }));
 	connection.play(broadcast);
 	broadcast.dispatcher.on('finish', () => {
-		console.log(list);
 		if (!list.queue) {
 			broadcast.end();
 		} else playQueue(connection, client, list);
@@ -23,15 +22,13 @@ module.exports = {
 		if (index != -1) {
 			serversQueue[index].queue.push(args[0]);
 
-			if (!message.guild.voice.speaking) {
+			if (message.guild.voice.speaking) {
 				playQueue(message.guild.voice.connection, client, serversQueue[index]);
 			}
 		} else {
 			let newServer = { id: fromChannelMessage, queue: [args[0]] };
 			serversQueue.push(newServer);
 			playQueue(message.guild.voice.connection, client, newServer);
-			console.log('new queue');
 		}
-		console.log(serversQueue);
 	},
 };
