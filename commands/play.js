@@ -3,12 +3,12 @@ const musicList = fs
 	.readdirSync('./music/')
 	.filter((file) => file.endsWith('.mp3'));
 
-const musicPlay = (connection, client) => {
+const musicPlay = (connection, client, list) => {
 	const broadcast = client.voice.createBroadcast();
-	broadcast.play(`./music/${musicList.shift()}`);
+	broadcast.play(`./music/${list.shift()}`);
 	connection.play(broadcast);
 	broadcast.dispatcher.on('finish', () => {
-		musicPlay(connection, client);
+		musicPlay(connection, client, list);
 	});
 };
 
@@ -17,8 +17,7 @@ module.exports = {
 	description: 'Connect voice chat.',
 	guildOnly: true,
 	execute: (message, args, client) => {
-		for (const connection of client.voice.connections.values()) {
-			musicPlay(connection, client);
-		}
+		connection = message.guild.voice.connection;
+		musicPlay(connection, client, musicList.slice());
 	},
 };
